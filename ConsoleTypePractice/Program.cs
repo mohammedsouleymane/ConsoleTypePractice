@@ -71,7 +71,7 @@ while (true)
 
     var time = (DateTime.Now - startTime)!.Value.TotalMinutes;
     var uncorrectedErrors = Math.Floor(errors * (1 / time));
-    var wpm = Math.Floor((randomWords.Sum(x => x.Length) - 3) / 5 / time) - uncorrectedErrors;
+    var wpm = Math.Floor((randomWords.Sum(x => x.Length) - 3.0) / 5  / time) - uncorrectedErrors;
     wpm = wpm < 0 ? 0 : wpm;
     if (restart) continue;
     Console.Clear();

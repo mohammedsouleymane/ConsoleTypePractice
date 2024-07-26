@@ -86,3 +86,4 @@ while (true)
     if (Console.ReadKey().Key is ConsoleKey.Enter or ConsoleKey.Spacebar) continue;
     break;
 }
+Console.Clear();

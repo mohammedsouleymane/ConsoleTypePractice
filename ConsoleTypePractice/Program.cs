@@ -1,8 +1,13 @@
-﻿using ConsoleTypePractice;
+﻿using System.Runtime.InteropServices;
+using ConsoleTypePractice;
 
+Console.CancelKeyPress += delegate
+{
+    Console.Clear();
+};
 while (true)
 {
-    var center = (Console.WindowWidth - 80) / 2;
+    var center = (Console.WindowWidth - 60) / 2;
     var height = Console.WindowHeight / 4;
     Console.Clear();
     Console.ResetColor();
@@ -83,7 +88,22 @@ while (true)
     Console.SetCursorPosition((Console.WindowWidth - 8) / 2, Console.CursorTop);
     Console.WriteLine($"wpm: {wpm}");
     Console.SetCursorPosition(Console.WindowWidth / 2, Console.CursorTop);
-    if (Console.ReadKey().Key is ConsoleKey.Enter or ConsoleKey.Spacebar) continue;
-    break;
+    var eoc = Console.ReadKey(true);
+
+    while (true)
+    {
+        switch (eoc.Key)
+        {
+            case ConsoleKey.Enter:
+            case ConsoleKey.Spacebar:
+                restart = true;
+                break;
+            default:
+                eoc = Console.ReadKey(true);
+                break;
+        }
+        if (restart) break;
+    }
+    if (restart) continue;
 }
-Console.Clear();
+

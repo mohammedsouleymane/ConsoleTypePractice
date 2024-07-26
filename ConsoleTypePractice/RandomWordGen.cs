@@ -19,7 +19,7 @@ public class RandomWordGen
         for (var i = 0; i < 4; i++)
         {
             var line = "";
-            while (line.Length < 80)
+            while (line.Length < 60)
                 line += RandomWord(topThousand) + " ";
             if (i < 3)
                 randomWords.Add(line + "\n");

@@ -7,7 +7,7 @@ Console.CancelKeyPress += delegate
 };
 while (true)
 {
-    var center = (Console.WindowWidth - 60) / 2;
+    var center = (Console.WindowWidth - RandomWordGen.LINELENGTH) / 2;
     var height = Console.WindowHeight / 4;
     Console.Clear();
     Console.ResetColor();

@@ -4,6 +4,7 @@ namespace ConsoleTypePractice;
 
 public class RandomWordGen
 {
+    public const int LINELENGTH = 50;
     private static string RandomWord(string[] wordsArray)
     {
         var random = new Random();
@@ -17,7 +18,7 @@ public class RandomWordGen
         for (var i = 0; i < 4; i++)
         {
             var line = "";
-            while (line.Length < 60)
+            while (line.Length < LINELENGTH)
                 line += RandomWord(Words) + " ";
             if (i < 3)
                 randomWords.Add(line + "\n");

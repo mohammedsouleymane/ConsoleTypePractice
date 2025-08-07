@@ -16,7 +16,7 @@ while (true)
     var currentLine = 0;
     var errors = 0;
 
-
+    var spaces = new Stack<int>();
     foreach (var line in randomWords)
     {
         Console.SetCursorPosition(center, height + currentLine++);
@@ -25,9 +25,11 @@ while (true)
 
     currentLine = 0;
     var restart = false;
+    
     DateTime? startTime = null;
     while (typed.Length < randomWords[currentLine].Length)
     {
+        
         Console.SetCursorPosition(center + typed.Length, height + currentLine);
         var key = Console.ReadKey(true);
         startTime ??= DateTime.Now;
@@ -36,8 +38,25 @@ while (true)
             restart = true;
             break;
         }
+        if (key is { Key: ConsoleKey.Backspace, Modifiers: ConsoleModifiers.Control  })
+        {
+            var lastSpace = spaces.Count != 0 ?  spaces.Peek() : 0;
+            if (lastSpace >= typed.Length  && lastSpace != 0)
+            {
+                spaces.Pop();
+                lastSpace = spaces.Count != 0 ?  spaces.Peek() : 0;
+            }
+                
+            if (typed.Length > 0)
+            {
+                Console.ResetColor();
+                Console.SetCursorPosition(center + lastSpace, height + currentLine);
+                Console.Write(randomWords[currentLine][lastSpace..typed.Length]);
+                typed = typed[..lastSpace];
+            }
 
-
+            continue;
+        }
         if (key.Key == ConsoleKey.Backspace)
         {
             if (typed.Length > 0)
@@ -48,13 +67,18 @@ while (true)
                 typed = typed[..^1];
             }
 
+            if (spaces.Count != 0)
+            {
+                if (spaces.Peek() >= typed.Length)
+                    spaces.Pop();
+            }
             continue;
         }
-        else
-        {
-            typed += key.KeyChar;
-        }
-
+        typed += key.KeyChar;
+        if (key.KeyChar == ' ')
+            spaces.Push(typed.Length);
+        
+        
         var i = typed.Length - 1;
         if (i < 0) continue;
         if (randomWords[currentLine][i] != '\n')
@@ -70,6 +94,7 @@ while (true)
                 errors += randomWords[currentLine][..^1].Where((c, index) => typed == "" || c != typed[index]).Count();
                 typed = "";
                 currentLine++;
+                spaces.Clear(); 
             }
         }
     }
